@@ -7,6 +7,9 @@ import friendsofmine.m2.repositories.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+
 @Service
 public class ActiviteService {
 
@@ -36,6 +39,14 @@ public class ActiviteService {
 
     public long countActivite() {
         return activiteRepository.count();
+    }
+
+    public ArrayList<Activite> findAllActivites() {
+        Iterable<Activite> activites = activiteRepository.findAll();
+        ArrayList<Activite> activiteList = new ArrayList<>();
+        activites.forEach(activiteList::add);
+        activiteList.sort(Comparator.comparing(Activite::getTitre));
+        return activiteList;
     }
 
     public ActiviteRepository getActiviteRepository() {
