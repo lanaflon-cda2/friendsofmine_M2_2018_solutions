@@ -14,15 +14,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class DataLoader implements ApplicationRunner {
 
+    @Autowired
     private ActiviteService activiteService;
-    private UtilisateurService utilisateurService;
-    private Utilisateur thom, ed, karen;
-    private Activite guitare, muscu, poker, pingpong, jogging;
 
     @Autowired
+    private UtilisateurService utilisateurService;
+
+    private Utilisateur thom, ed, karen, suzy;
+    private Activite guitare, muscu, poker, pingpong, jogging,
+            procrastination, crossfit, echec, poterie, gym;
+
     public DataLoader(ActiviteService actS, UtilisateurService utilS) {
-        activiteService = actS;
-        utilisateurService = utilS;
+        this.setActiviteService(actS);
+        this.setUtilisateurService(utilS);
     }
 
     public void run(ApplicationArguments args) {
@@ -34,6 +38,7 @@ public class DataLoader implements ApplicationRunner {
         initThom();
         initEd();
         initKaren();
+        initSuzy();
     }
 
     private void initThom() {
@@ -47,8 +52,13 @@ public class DataLoader implements ApplicationRunner {
     }
 
     private void initKaren() {
-        karen = new Utilisateur("Orzolek ", "Karen", "karen@yyy.com", "F");
+        karen = new Utilisateur("Orzolek", "Karen", "karen@yyy.com", "F");
         utilisateurService.saveUtilisateur(karen);
+    }
+
+    private void initSuzy() {
+        suzy = new Utilisateur("Lee", "Suzy", "suzy@yyy.com", "F");
+        utilisateurService.saveUtilisateur(suzy);
     }
 
     public void initActivites() {
@@ -57,6 +67,11 @@ public class DataLoader implements ApplicationRunner {
         initPoker();
         initPingpong();
         initJogging();
+        initProcrastination();
+        initCrossfit();
+        initEchec();
+        initPoterie();
+        initGym();
     }
 
     private void initGuitare() {
@@ -84,4 +99,100 @@ public class DataLoader implements ApplicationRunner {
         activiteService.saveActivite(jogging);
     }
 
+    private void initProcrastination() {
+        procrastination = new Activite("Procrastination", "Tous les jours");
+        activiteService.saveActivite(procrastination);
+    }
+
+    private void initCrossfit() {
+        crossfit = new Activite("Crossfit", "Animé par John");
+        activiteService.saveActivite(crossfit);
+    }
+
+    private void initEchec() {
+        echec = new Activite("Echec", "Pas de maériel à amener");
+        activiteService.saveActivite(echec);
+    }
+
+    private void initPoterie() {
+        poterie = new Activite("Poterie", "En salle B07 bis");
+        activiteService.saveActivite(poterie);
+    }
+
+    private void initGym() {
+        gym = new Activite("Gym", "Tous niveaux");
+        activiteService.saveActivite(gym);
+    }
+
+    public ActiviteService getActiviteService() {
+        return activiteService;
+    }
+
+    public void setActiviteService(ActiviteService activiteService) {
+        this.activiteService = activiteService;
+    }
+
+    public UtilisateurService getUtilisateurService() {
+        return utilisateurService;
+    }
+
+    public void setUtilisateurService(UtilisateurService utilisateurService) {
+        this.utilisateurService = utilisateurService;
+    }
+
+    public Utilisateur getThom() {
+        return thom;
+    }
+
+    public Utilisateur getEd() {
+        return ed;
+    }
+
+    public Utilisateur getKaren() {
+        return karen;
+    }
+
+    public Utilisateur getSuzy() {
+        return suzy;
+    }
+
+    public Activite getGuitare() {
+        return guitare;
+    }
+
+    public Activite getMuscu() {
+        return muscu;
+    }
+
+    public Activite getPoker() {
+        return poker;
+    }
+
+    public Activite getPingpong() {
+        return pingpong;
+    }
+
+    public Activite getJogging() {
+        return jogging;
+    }
+
+    public Activite getProcrastination() {
+        return procrastination;
+    }
+
+    public Activite getCrossfit() {
+        return crossfit;
+    }
+
+    public Activite getEchec() {
+        return echec;
+    }
+
+    public Activite getPoterie() {
+        return poterie;
+    }
+
+    public Activite getGym() {
+        return gym;
+    }
 }

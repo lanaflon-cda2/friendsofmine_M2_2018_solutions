@@ -20,13 +20,11 @@ public class UtilisateurServiceIntegrationTest {
     @Autowired
     private UtilisateurService utilisateurService;
 
-    private Utilisateur util, util1;
+    private Utilisateur util;
 
     @Before
     public void setup() {
         util = new Utilisateur("nom", "prenom", "toto@toto.fr", "F");
-        util1 = new Utilisateur("nom1", "prenom1", "tutu@tutu.fr", "M");
-        utilisateurService.saveUtilisateur(util1);
     }
 
     @Test
@@ -49,44 +47,49 @@ public class UtilisateurServiceIntegrationTest {
 
     @Test
     public void testFetchedUtilisateurIsNotNull() {
-        // given: un Utilisateur persisté util1
+        // given: un Utilisateur persisté util
+        utilisateurService.saveUtilisateur(util);
         // when: on appelle findUtilisateurById avec l'id de cet Utilisateur
-        Utilisateur fetched = utilisateurService.findUtilisateurById(util1.getId());
+        Utilisateur fetched = utilisateurService.findUtilisateurById(util.getId());
         // then: le résultat n'est pas null
         assertNotNull(fetched);
     }
 
     @Test
     public void testFetchedUtilisateurHasGoodId() {
-        // given: un Utilisateur persisté util1
+        // given: un Utilisateur persisté util
+        utilisateurService.saveUtilisateur(util);
         // when: on appelle findUtilisateurById avec l'id de cet Utilisateur
-        Utilisateur fetched = utilisateurService.findUtilisateurById(util1.getId());
+        Utilisateur fetched = utilisateurService.findUtilisateurById(util.getId());
         // then: l'Utilisateur obtenu en retour a le bon id
-        assertEquals(util1.getId(), fetched.getId());
+        assertEquals(util.getId(), fetched.getId());
     }
 
     @Test
     public void testFetchedUtilisateurIsUnchanged() {
-        // given: un Utilisateur persisté util1
+        // given: un Utilisateur persisté util
+        utilisateurService.saveUtilisateur(util);
         // when: on appelle findUtilisateurById avec l'id de cet Utilisateur
-        Utilisateur fetched = utilisateurService.findUtilisateurById(util1.getId());
+        Utilisateur fetched = utilisateurService.findUtilisateurById(util.getId());
         // then: les attributs de l'Utilisateur obtenu en retour a les bonnes valeurs
-        assertEquals(util1.getNom(), fetched.getNom());
-        assertEquals(util1.getPrenom(), fetched.getPrenom());
-        assertEquals(util1.getEmail(), fetched.getEmail());
-        assertEquals(util1.getSexe(), fetched.getSexe());
+        assertEquals(util.getNom(), fetched.getNom());
+        assertEquals(util.getPrenom(), fetched.getPrenom());
+        assertEquals(util.getEmail(), fetched.getEmail());
+        assertEquals(util.getSexe(), fetched.getSexe());
     }
 
     @Test
     public void testUpdatedUtilisateurIsUpdated() {
-        // given: un Utilisateur persisté util1
-        Utilisateur fetched = utilisateurService.findUtilisateurById(util1.getId());
+        // given: un Utilisateur persisté util
+        utilisateurService.saveUtilisateur(util);
+
+        Utilisateur fetched = utilisateurService.findUtilisateurById(util.getId());
         // when: l'email est modifié au niveau "objet"
         fetched.setEmail("tyty@tyty.fr");
-        // when: l'objet util1 est mis à jour en base
+        // when: l'objet util est mis à jour en base
         utilisateurService.saveUtilisateur(fetched);
         // when: l'objet act1 est relu en base
-        Utilisateur fetchedUpdated = utilisateurService.findUtilisateurById(fetched.getId());
+        Utilisateur fetchedUpdated = utilisateurService.findUtilisateurById(util.getId());
         // then: l'email a bien été mis à jour
         assertEquals(fetched.getEmail(), fetchedUpdated.getEmail());
     }
@@ -103,9 +106,11 @@ public class UtilisateurServiceIntegrationTest {
 
     @Test
     public void testUpdateDoesNotCreateANewEntry() {
+        // given: un Utilisateur persisté util
+        utilisateurService.saveUtilisateur(util);
         long count = utilisateurService.countUtilisateur();
-        // given: un Utilisateur persisté util1
-        Utilisateur fetched = utilisateurService.findUtilisateurById(util1.getId());
+
+        Utilisateur fetched = utilisateurService.findUtilisateurById(util.getId());
         // when: l'email est modifié au niveau "objet"
         fetched.setEmail("titi@titi.fr");
         // when: l'objet est mis à jour en base

@@ -20,13 +20,11 @@ public class ActiviteServiceIntegrationTest {
     @Autowired
     private ActiviteService activiteService;
 
-    private Activite act, act1;
+    private Activite act;
 
     @Before
     public void setup() {
         act = new Activite("titre", "descriptif");
-        act1 = new Activite("titre1", "descriptif1");
-        activiteService.saveActivite(act1);
     }
 
     @Test
@@ -49,35 +47,39 @@ public class ActiviteServiceIntegrationTest {
 
     @Test
     public void testFetchedActiviteIsNotNull() {
-        // given: une Activite persistée act1
+        // given: une Activite persistée act
+        activiteService.saveActivite(act);
         // when: on appelle findActiviteById avec l'id de cette Activite
-        Activite fetched = activiteService.findActiviteById(act1.getId());
+        Activite fetched = activiteService.findActiviteById(act.getId());
         // then: le résultat n'est pas null
         assertNotNull(fetched);
     }
 
     @Test
     public void testFetchedActiviteIsUnchangedForDescriptif() {
-        // given: une Activite persistée act1
+        // given: une Activite persistée act
+        activiteService.saveActivite(act);
         // when: on appelle findActiviteById avec l'id de cette Activite
-        Activite fetched = activiteService.findActiviteById(act1.getId());
+        Activite fetched = activiteService.findActiviteById(act.getId());
         // then: l'Activite obtenue en retour a le bon id
-        assertEquals(fetched.getId(), act1.getId());
+        assertEquals(fetched.getId(), act.getId());
         // then : l'Activite obtenue en retour a le bon descriptif
-        assertEquals(fetched.getDescriptif(), act1.getDescriptif());
+        assertEquals(fetched.getDescriptif(), act.getDescriptif());
     }
 
     @Test
     @Transactional
     public void testUpdatedActiviteIsUpdated() {
-        // given: une Activite persistée act1
-        Activite fetched = activiteService.findActiviteById(act1.getId());
+        // given: une Activite persistée act
+        activiteService.saveActivite(act);
+
+        Activite fetched = activiteService.findActiviteById(act.getId());
         // when: le descriptif est modifié au niveau "objet"
         fetched.setDescriptif("Nouvelle description");
-        // when: l'objet act1 est mis à jour en base
+        // when: l'objet act est mis à jour en base
         activiteService.saveActivite(fetched);
-        // when: l'objet act1 est relu en base
-        Activite fetchedUpdated = activiteService.findActiviteById(fetched.getId());
+        // when: l'objet act est relu en base
+        Activite fetchedUpdated = activiteService.findActiviteById(act.getId());
         // then: le descriptif a bien été mis à jour
         assertEquals(fetched.getDescriptif(), fetchedUpdated.getDescriptif());
     }
@@ -85,12 +87,14 @@ public class ActiviteServiceIntegrationTest {
     @Test
     @Transactional
     public void testUpdateDoesNotCreateANewEntry() {
+        // given: une Activite persistée act
+        activiteService.saveActivite(act);
+
         long count = activiteService.countActivite();
-        // given: une Activite persistée act1
-        Activite fetched = activiteService.findActiviteById(act1.getId());
+        Activite fetched = activiteService.findActiviteById(act.getId());
         // when: le descriptif est modifié au niveau "objet"
         fetched.setDescriptif("Nouvelle description");
-        // when: l'objet act1 est mis à jour en base
+        // when: l'objet act est mis à jour en base
         activiteService.saveActivite(fetched);
         // then: une nouvelle entrée n'a pas été créée en base
         assertEquals(count, activiteService.countActivite());
