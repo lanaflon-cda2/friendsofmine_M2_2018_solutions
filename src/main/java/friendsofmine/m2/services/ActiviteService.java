@@ -45,7 +45,7 @@ public class ActiviteService {
         Iterable<Activite> activites = activiteRepository.findAll();
         ArrayList<Activite> activiteList = new ArrayList<>();
         activites.forEach(activiteList::add);
-        activiteList.sort(Comparator.comparing(Activite::getTitre));
+        // activiteList.sort(Comparator.comparing(Activite::getTitre));
         return activiteList;
     }
 
