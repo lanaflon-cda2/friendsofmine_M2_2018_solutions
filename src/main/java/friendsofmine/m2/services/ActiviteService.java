@@ -1,7 +1,9 @@
 package friendsofmine.m2.services;
 
 import friendsofmine.m2.domain.Activite;
+import friendsofmine.m2.domain.Utilisateur;
 import friendsofmine.m2.repositories.ActiviteRepository;
+import friendsofmine.m2.repositories.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +13,21 @@ public class ActiviteService {
     @Autowired
     private ActiviteRepository activiteRepository ;
 
+    @Autowired
+    private UtilisateurRepository utilisateurRepository;
+
     public Activite saveActivite(Activite activite) {
-        if (activite == null)
-            throw new IllegalArgumentException();
-        return  activiteRepository.save(activite) ;
+        if (activite == null) {
+            throw new IllegalArgumentException("Activite must not be null");
+        }
+
+        Utilisateur responsable = activite.getResponsable();
+        if (responsable != null) {
+            utilisateurRepository.save(responsable);
+            responsable.addActivite(activite);
+        }
+        return activiteRepository.save(activite);
+
     }
 
     public Activite findActiviteById(Long id) {
@@ -31,5 +44,13 @@ public class ActiviteService {
 
     public void setActiviteRepository(ActiviteRepository activiteRepository) {
         this.activiteRepository = activiteRepository;
+    }
+
+    public UtilisateurRepository getUtilisateurRepository() {
+        return utilisateurRepository;
+    }
+
+    public void setUtilisateurRepository(UtilisateurRepository utilisateurRepository) {
+        this.utilisateurRepository = utilisateurRepository;
     }
 }

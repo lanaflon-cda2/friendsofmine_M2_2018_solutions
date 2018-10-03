@@ -17,9 +17,14 @@ public class Activite {
 
     private String descriptif ;
 
-    public Activite(String titre, String descriptif) {
+    @NotNull
+    @ManyToOne
+    private Utilisateur responsable ;
+
+    public Activite(String titre, String descriptif, Utilisateur resp) {
         this.titre = titre;
         this.descriptif = descriptif;
+        this.responsable = resp;
     }
 
     public Activite() {
@@ -44,6 +49,27 @@ public class Activite {
 
     public void setDescriptif(String descriptif) {
         this.descriptif = descriptif;
+    }
+
+    public Utilisateur getResponsable() {
+        return responsable;
+    }
+
+    public void setResponsable(Utilisateur responsable) {
+        this.responsable = responsable;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Activite that = (Activite) o;
+
+        if (titre != null ? !titre.equals(that.titre) : that.titre != null) return false;
+        if (descriptif != null ? !descriptif.equals(that.descriptif) : that.descriptif != null) return false;
+        return responsable != null ? responsable.equals(that.responsable) : that.responsable == null;
+
     }
 
 }

@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
@@ -88,7 +90,7 @@ public class UtilisateurServiceIntegrationTest {
         fetched.setEmail("tyty@tyty.fr");
         // when: l'objet util est mis à jour en base
         utilisateurService.saveUtilisateur(fetched);
-        // when: l'objet act1 est relu en base
+        // when: l'objet util est relu en base
         Utilisateur fetchedUpdated = utilisateurService.findUtilisateurById(util.getId());
         // then: l'email a bien été mis à jour
         assertEquals(fetched.getEmail(), fetchedUpdated.getEmail());
@@ -125,5 +127,7 @@ public class UtilisateurServiceIntegrationTest {
         // then: null est retourné
         assertNull(utilisateurService.findUtilisateurById(1000L));
     }
+
+
 
 }

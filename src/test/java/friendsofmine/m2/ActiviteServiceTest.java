@@ -1,7 +1,8 @@
 package friendsofmine.m2;
 
-import friendsofmine.m2.domain.Activite;
+import friendsofmine.m2.domain.Utilisateur;
 import friendsofmine.m2.repositories.ActiviteRepository;
+import friendsofmine.m2.repositories.UtilisateurRepository;
 import friendsofmine.m2.services.ActiviteService;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,10 +23,17 @@ public class ActiviteServiceTest {
     @MockBean
     private ActiviteRepository activiteRepository;
 
+    @MockBean
+    private UtilisateurRepository utilisateurRepository;
+
+    @MockBean
+    private Utilisateur utilisateur;
+
     @Before
     public void setup() {
         activiteService = new ActiviteService();
         activiteService.setActiviteRepository(activiteRepository);
+        activiteService.setUtilisateurRepository(utilisateurRepository);
     }
 
     @Test
@@ -41,16 +49,6 @@ public class ActiviteServiceTest {
         activiteService.findActiviteById(0L);
         // then: la méthode findById du Repository associé est invoquée
         verify(activiteService.getActiviteRepository()).findById(0L);
-    }
-
-    @Test
-    public void testSaveFromCrudRepositoryIsInvokedWhenActiviteIsSaved() {
-        // given: un ActiviteService et une Activite
-        Activite activite = new Activite("Truc", "Description du truc");
-        // when: la méthode saveActivite est invoquée
-        activiteService.saveActivite(activite);
-        // then: la méthode save du Repository associé est invoquée
-        verify(activiteService.getActiviteRepository()).save(activite);
     }
 
 }
