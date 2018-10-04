@@ -18,7 +18,7 @@ public class Activite {
     private String descriptif ;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Utilisateur responsable ;
 
     public Activite(String titre, String descriptif, Utilisateur resp) {

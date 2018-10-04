@@ -1,5 +1,6 @@
 package friendsofmine.m2;
 
+import friendsofmine.m2.domain.Activite;
 import friendsofmine.m2.domain.Utilisateur;
 import friendsofmine.m2.repositories.ActiviteRepository;
 import friendsofmine.m2.repositories.UtilisateurRepository;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.*;
@@ -27,6 +29,9 @@ public class ActiviteServiceTest {
     private UtilisateurRepository utilisateurRepository;
 
     @MockBean
+    private Activite activite;
+
+    @MockBean
     private Utilisateur utilisateur;
 
     @Before
@@ -40,6 +45,18 @@ public class ActiviteServiceTest {
     public void testTypeRepository() {
         // le Repository associé à un ActiviteService est de type CrudRepository
         assertThat(activiteService.getActiviteRepository(), instanceOf(CrudRepository.class));
+    }
+
+    @Test
+    public void testSaveFromCrudRepositoryIsInvokedWhenActiviteIsSaved() {
+        // given: un ActiviteService et une Activite
+        Activite activite = new Activite("Truc", "Description du truc", utilisateur);
+        // when: la méthode saveActivite est invoquée
+        activiteService.saveActivite(activite);
+        // then: la méthode save du ActiviteRepository associé est invoquée
+        verify(activiteService.getActiviteRepository()).save(activite);
+        // then: la méthode save du UtilisateurRepository associé n'est pas invoquée (on requiert ainsi l'utilisation d'une cascade)
+        verify(activiteService.getUtilisateurRepository(), never()).save(utilisateur);
     }
 
     @Test

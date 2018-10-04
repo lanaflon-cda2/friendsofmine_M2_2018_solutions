@@ -23,14 +23,9 @@ public class ActiviteService {
         if (activite == null) {
             throw new IllegalArgumentException("Activite must not be null");
         }
-
-        Utilisateur responsable = activite.getResponsable();
-        if (responsable != null) {
-            utilisateurRepository.save(responsable);
-            responsable.addActivite(activite);
-        }
-        return activiteRepository.save(activite);
-
+        Activite managedActivite = activiteRepository.save(activite);
+        activite.getResponsable().addActivite(activite);
+        return managedActivite;
     }
 
     public Activite findActiviteById(Long id) {

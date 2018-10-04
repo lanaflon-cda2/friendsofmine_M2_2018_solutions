@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Transactional
 public class DataLoader implements ApplicationRunner {
 
     private ActiviteService activiteService;
@@ -42,6 +44,7 @@ public class DataLoader implements ApplicationRunner {
 
     private void initEd() {
         ed = new Utilisateur("Obrien", "Ed", "ed@rh.com", "M");
+
     }
 
     private void initKaren() {
