@@ -5,6 +5,8 @@ import friendsofmine.m2.repositories.InscriptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class InscriptionService {
 
@@ -27,6 +29,17 @@ public class InscriptionService {
 
     public long countInscription() {
         return inscriptionRepository.count();
+    }
+
+    public ArrayList<Inscription> findAllInscription() {
+        Iterable<Inscription> ins = inscriptionRepository.findAll();
+        ArrayList<Inscription> insList = new ArrayList<>();
+        ins.forEach(insList::add);
+        return insList;
+    }
+
+    public ArrayList<Inscription> findInscription(String nom, String titre) {
+        return inscriptionRepository.findByParticipantNomOrActiviteTitreAllIgnoreCase(nom, titre);
     }
 
     public InscriptionRepository getInscriptionRepository() {
