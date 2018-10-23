@@ -44,7 +44,6 @@ public class DataLoader implements ApplicationRunner {
 
     private void initEd() {
         ed = new Utilisateur("Obrien", "Ed", "ed@rh.com", "M");
-
     }
 
     private void initKaren() {
@@ -69,53 +68,43 @@ public class DataLoader implements ApplicationRunner {
     }
 
     private void initGuitare() {
-        guitare = new Activite("Guitare", "Matériel non fourni", thom);
-        activiteService.saveActivite(guitare);
+        guitare = activiteService.saveActivite(new Activite("Guitare", "Matériel non fourni", thom));
     }
 
     private void initMuscu() {
-        muscu = new Activite("Muscu", "Créneau réservé le mardi", ed);
-        activiteService.saveActivite(muscu);
+        muscu = activiteService.saveActivite(new Activite("Muscu", "Créneau réservé le mardi", ed));
     }
 
     private void initPoker() {
-        poker = new Activite("Poker", "Petite blind à 1 euro", karen);
-        activiteService.saveActivite(poker);
+        poker = activiteService.saveActivite(new Activite("Poker", "Petite blind à 1 euro", karen));
     }
 
     private void initPingpong() {
-        pingpong = new Activite("Ping Pong", "Matériel non fourni", ed);
-        activiteService.saveActivite(pingpong);
+        pingpong = activiteService.saveActivite(new Activite("Ping Pong", "Matériel non fourni", ed));
     }
 
     private void initJogging() {
-        jogging = new Activite("Jogging", "Tous les midis", ed);
-        activiteService.saveActivite(jogging);
+        jogging = activiteService.saveActivite(new Activite("Jogging", "Tous les midis", ed));
     }
 
     private void initProcrastination() {
-        procrastination = new Activite("Procrastination", "Tous les jours", thom);
-        activiteService.saveActivite(procrastination);
+        procrastination = activiteService.saveActivite(new Activite("Procrastination", "Tous les jours", thom));
     }
 
     private void initCrossfit() {
-        crossfit = new Activite("Crossfit", "Animé par John", suzy);
-        activiteService.saveActivite(crossfit);
+        crossfit = activiteService.saveActivite(new Activite("Crossfit", "Animé par John", suzy));
     }
 
     private void initEchec() {
-        echec = new Activite("Echec", "Pas de maériel à amener", ed);
-        activiteService.saveActivite(echec);
+        echec = activiteService.saveActivite(new Activite("Echec", "Pas de maériel à amener", ed));
     }
 
     private void initPoterie() {
-        poterie = new Activite("Poterie", "En salle B07 bis", thom);
-        activiteService.saveActivite(poterie);
+        poterie = activiteService.saveActivite(new Activite("Poterie", "En salle B07 bis", thom));
     }
 
     private void initGym() {
-        gym = new Activite("Gym", "Tous niveaux", karen);
-        activiteService.saveActivite(gym);
+        gym = activiteService.saveActivite(new Activite("Gym", "Tous niveaux", karen));
     }
 
     public ActiviteService getActiviteService() {
@@ -189,4 +178,6 @@ public class DataLoader implements ApplicationRunner {
     public Activite getGym() {
         return gym;
     }
+
+
 }

@@ -24,7 +24,7 @@ public class ActiviteService {
             throw new IllegalArgumentException("Activite must not be null");
         }
         Activite managedActivite = activiteRepository.save(activite);
-        activite.getResponsable().addActivite(activite);
+        activite.getResponsable().addActivite(managedActivite);
         return managedActivite;
     }
 

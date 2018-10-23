@@ -5,11 +5,15 @@ import friendsofmine.m2.domain.Activite;
 import friendsofmine.m2.domain.Utilisateur;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.junit4.SpringRunner;
+
 import static org.junit.Assert.*;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+@RunWith(SpringRunner.class)
 public class ActiviteTest {
 
     private static Validator validator;
