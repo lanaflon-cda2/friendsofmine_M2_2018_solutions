@@ -1,8 +1,10 @@
 package friendsofmine.m2;
 
 import friendsofmine.m2.domain.Activite;
+import friendsofmine.m2.domain.Inscription;
 import friendsofmine.m2.domain.Utilisateur;
 import friendsofmine.m2.services.ActiviteService;
+import friendsofmine.m2.services.InscriptionService;
 import friendsofmine.m2.services.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -16,19 +18,23 @@ public class DataLoader implements ApplicationRunner {
 
     private ActiviteService activiteService;
     private UtilisateurService utilisateurService;
+    private InscriptionService inscriptionService;
     private Utilisateur thom, ed, karen, suzy;
     private Activite guitare, muscu, poker, pingpong, jogging,
             procrastination, crossfit, echec, poterie, gym;
+    private Inscription thomAuPingPong, thomAuPoker, edAuJogging, karenALaPoterie, karenAuPingPong;
 
     @Autowired
-    public DataLoader(ActiviteService actS, UtilisateurService utilS) {
+    public DataLoader(ActiviteService actS, UtilisateurService utilS, InscriptionService insS) {
         activiteService = actS;
         utilisateurService = utilS;
+        inscriptionService = insS;
     }
 
     public void run(ApplicationArguments args) {
         initUtilisateurs();
         initActivites();
+        initInscriptions();
     }
 
     public void initUtilisateurs() {
@@ -107,6 +113,34 @@ public class DataLoader implements ApplicationRunner {
         gym = activiteService.saveActivite(new Activite("Gym", "Tous niveaux", karen));
     }
 
+    public void initInscriptions() {
+        initThomAuPingPong();
+        initThomAuPoker();
+        initEdAuJogging();
+        initKarenALaPoterie();
+        initKarenAuPingPong();
+    }
+
+    private void initThomAuPingPong() {
+        thomAuPingPong = inscriptionService.saveInscription(new Inscription(thom, pingpong));
+    }
+
+    private void initThomAuPoker() {
+        thomAuPoker = inscriptionService.saveInscription(new Inscription(thom, poker));
+    }
+
+    private void initEdAuJogging() {
+        edAuJogging = inscriptionService.saveInscription(new Inscription(ed, jogging));
+    }
+
+    private void initKarenALaPoterie() {
+        karenALaPoterie = inscriptionService.saveInscription(new Inscription(karen, poterie));
+    }
+
+    private void initKarenAuPingPong() {
+        karenAuPingPong = inscriptionService.saveInscription(new Inscription(karen, pingpong));
+    }
+
     public ActiviteService getActiviteService() {
         return activiteService;
     }
@@ -179,5 +213,27 @@ public class DataLoader implements ApplicationRunner {
         return gym;
     }
 
+    public InscriptionService getInscriptionService() {
+        return inscriptionService;
+    }
 
+    public Inscription getThomAuPingPong() {
+        return thomAuPingPong;
+    }
+
+    public Inscription getThomAuPoker() {
+        return thomAuPoker;
+    }
+
+    public Inscription getEdAuJogging() {
+        return edAuJogging;
+    }
+
+    public Inscription getKarenALaPoterie() {
+        return karenALaPoterie;
+    }
+
+    public Inscription getKarenAuPingPong() {
+        return karenAuPingPong;
+    }
 }

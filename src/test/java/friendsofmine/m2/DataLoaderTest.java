@@ -1,6 +1,7 @@
 package friendsofmine.m2;
 
 import friendsofmine.m2.services.ActiviteService;
+import friendsofmine.m2.services.InscriptionService;
 import friendsofmine.m2.services.UtilisateurService;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,9 +27,12 @@ public class DataLoaderTest {
     @MockBean
     private UtilisateurService utilisateurService;
 
+    @MockBean
+    private InscriptionService inscriptionService;
+
     @Before
     public void setUp() {
-        dataLoader = new DataLoader(activiteService, utilisateurService);
+        dataLoader = new DataLoader(activiteService, utilisateurService, inscriptionService);
     }
 
     @Test
@@ -48,6 +52,8 @@ public class DataLoaderTest {
         verify(spy).initUtilisateurs();
         // then: la méthode initActivites() est invoquée
         verify(spy).initActivites();
+        // then: la méthode initInscriptions() est invoquée
+        verify(spy).initInscriptions();
 
     }
 }
